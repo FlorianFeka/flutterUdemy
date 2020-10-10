@@ -12,11 +12,11 @@ class Chart extends StatelessWidget {
     return List.generate(7, (index) {
       final weekDay = DateTime.now().subtract(Duration(days: index));
       var totalSum = 0.0;
-      for (var i = 0; i < recentTransactions.length; i++) {
-        if (recentTransactions[i].date.day == weekDay.day &&
-            recentTransactions[i].date.month == weekDay.month &&
-            recentTransactions[i].date.year == weekDay.year) {
-          totalSum += recentTransactions[i].amount;
+      for (var tx in recentTransactions) {
+        if (tx.date.day == weekDay.day &&
+            tx.date.month == weekDay.month &&
+            tx.date.year == weekDay.year) {
+          totalSum += tx.amount;
         }
       }
 
