@@ -50,16 +50,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    // Transaction(
-    //     id: 't1',
-    //     titel: 'New pair of shoes',
-    //     amount: 60.99,
-    //     date: DateTime.now()),
-    // Transaction(
-    //     id: 't2',
-    //     titel: 'Weekly Groceries',
-    //     amount: 23.93,
-    //     date: DateTime.now())
+    Transaction(
+        id: 't1',
+        titel: 'New pair of shoes',
+        amount: 60.99,
+        date: DateTime.now()),
+    Transaction(
+        id: 't2',
+        titel: 'Weekly Groceries',
+        amount: 23.93,
+        date: DateTime.now().subtract(Duration(days: 1)))
   ];
 
   List<Transaction> get _recentTransactions {
@@ -71,7 +71,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _addNewTransaction(String txTitle, double txAmount, DateTime date) {
     final newTx = Transaction(
-        titel: txTitle, amount: txAmount, date: date, id: date.toString());
+        titel: txTitle,
+        amount: txAmount,
+        date: date,
+        id: DateTime.now().toString());
 
     setState(() {
       _userTransactions.add(newTx);
@@ -88,6 +91,12 @@ class _MyHomePageState extends State<MyHomePage> {
             behavior: HitTestBehavior.opaque,
           );
         });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((element) => element.id == id);
+    });
   }
 
   @override
@@ -109,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Chart(_recentTransactions),
-              TransactionList(_userTransactions),
+              TransactionList(_userTransactions, _deleteTransaction),
             ]),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
